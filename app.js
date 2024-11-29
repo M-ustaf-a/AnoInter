@@ -10,10 +10,11 @@ const Post = require("./models/post");
 const Community = require("./models/community");
 const methodOverride = require("method-override");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 
 const app = express();
-const MONGO_URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/justPost1";
+const MONGO_URL = process.env.ATLAS;
 
 // Multer configuration for file uploads
 const upload = multer({ 
@@ -52,7 +53,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
+
+const store = MongoStore.create({
+    mongoUrl: MONGO_URL,
+    crypto: {
+        secret: process.env.SESSION_SECRET,
+    },
+    touchAfter: 24*3600,
+});
+store.on("error", ()=>{
+    console.log('Error in MONGO session store', err);
+})
+
 app.use(session({
+    store,
     secret: process.env.SESSION_SECRET || 'defaultsecret',
     resave: false,
     saveUninitialized: true,
@@ -63,6 +77,8 @@ app.use(session({
     }
 }));
 app.use(flash());
+
+
 
 // Home Route
 app.get("/", (req, res) => {

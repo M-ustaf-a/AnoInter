@@ -19,9 +19,9 @@
             
         }
         .rows video {
-            width: 99%; /* Fit video within card */
+            width: 101%; /* Fit video within card */
             ; /* Maintain aspect ratio */
-            height: px;
+            height: 250px;
             
         }
         .heart-icon {
@@ -46,7 +46,7 @@
         </header>
         <div class="row g-1">
             <% for(post of posts) { %>
-                <div class="col-20 col-md-6 col-lg-4 d-flex justify-content-center" style="padding: 0; width: 101%;">
+                <div class="col-20 col-md-6 col-lg-4 d-flex justify-content-center" style="padding: 0;">
                     <div class="rows">
                         <button type="button" class="btn btn-light mt-1 mb-0" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="<%=post.username%>" style="font-style: oblique;">
                                 <b><%=post.title%></b>

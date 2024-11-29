@@ -34,17 +34,16 @@
     </style>
 </head>
 <body>
+    <header style="position: sticky; top: 0; z-index: 1000; background-color: transparent; backdrop-filter: blur(10px); width: 101%;">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <h1 style="color: #A82400; margin: 20px;">Posts</h1>
+            <form action="/community/<%= community._id %>/posts/new" method="get">
+                <button class="btn btn-light" style="background-color: #A82400; color: white;">create</button>
+            </form>
+        </div>
+        <hr>
+    </header>
     <div class="container" style=" padding: 0px;">
-        <header style="position: sticky; top: 0; z-index: 1000; background-color: transparent; backdrop-filter: blur(10px); width: 101%;">
-            <div class="d-flex justify-content-between align-items-center flex-wrap">
-                <h1 style="color: #A82400; margin: 20px;">Posts</h1>
-                <form action="/community/<%= community._id %>/posts/new" method="get">
-                    <button class="btn btn-light" 
-                        style="background-color: #A82400; color: aliceblue;">Create</button>
-                </form>
-            </div>
-            <hr>
-        </header>
         <div class="row g-1">
             <% for(post of posts) { %>
                 <div class="col-20 col-md-6 col-lg-4 d-flex justify-content-center" style="padding: 0;">

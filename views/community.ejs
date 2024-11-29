@@ -14,6 +14,7 @@
         }
         .rows{
             background-color: aliceblue;
+            width: 23rem;
             align-items: center;
             height: auto;
             display: flex;
@@ -24,7 +25,7 @@
 </head>
 <body>
     <div class="container" style="padding: 0px">
-        <header style="position: sticky; top: 0; z-index: 1000; background-color: transparent; backdrop-filter: blur(10px); width: 101%;">
+        <header style="position: sticky; top: 0; z-index: 1000; background-color: transparent; backdrop-filter: blur(10px);">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
               <h1 style="color: #A82400; margin: 20px;">Community</h1>
               <form action="/commForm" method="get">
@@ -42,7 +43,7 @@
                         </button>
                         <a href="/community/<%= community._id %>/posts">
                             <div>
-                                <img src="<%=community.thumbnail.url%>" alt="thumbnail" style="width: 25rem;">
+                                <img src="<%=community.thumbnail.url%>" alt="thumbnail" style="width: 23rem;">
                             </div>
                         </a>
                         <div style="margin-left: 5%;">

@@ -8,8 +8,6 @@
     <style>
         body {
             background-color: blanchedalmond;
-            margin: 0;
-            padding: 0;
             font-family: Arial, sans-serif;
         }
 
@@ -22,7 +20,6 @@
         h1 {
             color: #A82400;
             text-align: start;
-            margin-bottom: 15px;
         }
 
         /* Image Slider Styles */
@@ -100,15 +97,18 @@
 </head>
 <body>
     <div class="post-container">
-        <header style="position: sticky; top: 0; z-index: 1000; background-color: transparent; backdrop-filter: blur(10px); width: 101%;">
-            <a href="/community/<%=community.id%>/posts"><h1><%= post.title %></h1></a>
+        <header style="position: sticky; top: 0; z-index: 1000; background-color: transparent; backdrop-filter: blur(10px); width: 101%; height: 70px;">
+            <div style="margin: 23px; margin-top: 23px; font-style: oblique;">
+                <a href="/community/<%=community.id%>/posts"><h1><%= post.title %></h1></a>
+            </div>
+      
         </header>
     
             <div class="image-slider-container">
                 <div class="image-slider" id="imageSlider">
                     <% post.image.url.forEach((image, index) => { %>
                         <div class="image-slide">
-                            <img src="<%= image %>" alt="Image <%= index + 1 %>">
+                            <img src="<%= image %>" alt="Image <%= index + 1 %>" style="width: 100%;">
                         </div>
                     <% }); %>
                 </div>

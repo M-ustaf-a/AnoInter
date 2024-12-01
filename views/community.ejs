@@ -9,6 +9,14 @@
         body{
             background-color: blanchedalmond;
         }
+        .header{
+            position: sticky;
+            top: 0; 
+            z-index: 1000; 
+            background-color: transparent; 
+            backdrop-filter: blur(10px); 
+            width: 101%;
+        }
         .filled {
             fill: red;
         }
@@ -25,18 +33,18 @@
 </head>
 <body>
     <div class="container" style="padding: 0px">
-        <header style="position: sticky; top: 0; z-index: 1000; background-color: transparent; backdrop-filter: blur(10px); width: 101%;">
+        <header class="header">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
-              <h1 style="color: #A82400; margin: 20px;">Community</h1>
-              <form action="/commForm" method="get">
-                <button class="btn btn-light" style="background-color: #A82400; color: white;">Create</button>
-              </form>
+                <h1 style="color: #A82400; margin: 20px;">Community</h1>
+                <form action="/commForm" method="get">
+                    <button class="btn btn-light" style="background-color: #A82400; color: white;">Create</button>
+                </form>
             </div>
             <hr>
         </header>
         <div class="row g-1">
             <% for(community of Communities){ %>
-                    <div class="col-20 col-md-6 col-lg-4 d-flex justify-content-center mb-3">
+                    <div class="col-20 col-md-6 col-lg-4 d-flex justify-content-center mb-3" style="padding: 0; margin: 0px;">
                        <div class="rows">
                         <button type="button" class="btn btn-light mt-1 mb-1" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="<%=community.admin%>" style="font-style: oblique;">
                             <b><%=community.title%></b>

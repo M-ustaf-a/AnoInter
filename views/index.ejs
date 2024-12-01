@@ -1,30 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upload Video</title>
-  <link rel="stylesheet" href="/styles.css">
+  <title>Chat App</title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <div id="upload-section">
-    <h1>Upload Video</h1>
-    <form id="video-upload-form" action="/upload-video" method="POST" enctype="multipart/form-data">
-      <input type="file" id="video" name="video" accept="video/*" required>
-      <button type="submit">Upload Video</button>
-    </form>
-  </div>
-
-  <% if (videoUrl) { %>
-    <div id="video-display">
-      <h2>Uploaded Video</h2>
-      <video controls>
-        <source src="<%= videoUrl %>" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
-  <% } else { %>
-    <p>No video uploaded yet. Upload one above!</p>
-  <% } %>
+  <h1>Welcome to Chat App</h1>
+  <a href="/chat">Go to Chat</a>
 </body>
 </html>
+ 

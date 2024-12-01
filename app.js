@@ -13,6 +13,9 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 
+// Import chat routes and socket initialization
+const { router: chatRoutes, initializeSocket } = require("./routes/chat");
+
 const app = express();
 const MONGO_URL = process.env.ATLAS;
 
@@ -54,6 +57,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 
+// Session Store Configuration
 const store = MongoStore.create({
     mongoUrl: MONGO_URL,
     crypto: {
@@ -61,10 +65,12 @@ const store = MongoStore.create({
     },
     touchAfter: 24*3600,
 });
-store.on("error", ()=>{
-    console.log('Error in MONGO session store', err);
-})
 
+store.on("error", (err) => {
+    console.log('Error in MONGO session store', err);
+});
+
+// Session Middleware
 app.use(session({
     store,
     secret: process.env.SESSION_SECRET || 'defaultsecret',
@@ -76,9 +82,16 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }));
+
+// Flash Messages Middleware
 app.use(flash());
 
-
+// Global Middleware for Flash Messages
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+});
 
 // Home Route
 app.get("/", (req, res) => {
@@ -142,6 +155,7 @@ app.get("/community/:communityId/posts", async (req, res) => {
     }
 });
 
+  
 // Show New Post Form for a Specific Community
 app.get("/community/:communityId/posts/new", async (req, res) => {
     const { communityId } = req.params;
@@ -235,6 +249,9 @@ app.post("/community/:communityId/posts/:postId/suggestion", async (req, res) =>
     }
 });
 
+// Use chat routes
+app.use(chatRoutes);
+
 // Error Handling Middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -243,4 +260,9 @@ app.use((err, req, res, next) => {
 
 // Start Server
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+
+// Initialize Socket.IO
+const io = initializeSocket(server);
+
+module.exports = app;

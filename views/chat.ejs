@@ -47,6 +47,10 @@
         <% } %>
         <div class="flex flex-col items-start md:ml-3">
             <h1 class="text-lg font-semibold"><%= community.title %></h1>
+            <!-- New Active Users Display -->
+            <p class="text-xs text-gray-600" id="active-users-count">
+                <i class="fas fa-users mr-1"></i>0 Active Users
+            </p>
         </div>
         <div class="ml-auto flex space-x-4">
             <button><i class="fas fa-video"></i></button>
@@ -55,6 +59,7 @@
         </div>
     </div>
 
+    <!-- Rest of the previous template remains the same -->
     <!-- Chat Container -->
     <div id="chat-background" class="flex-grow overflow-hidden flex">
         <div class="w-full flex flex-col">
@@ -80,14 +85,8 @@
                 <% }); %>
             </div>
 
-            <!-- Message Input Area -->
+            <!-- Message Input Area - Previous code remains the same -->
             <div class="bg-[#fee4bd] p-3 flex flex-wrap items-center space-x-2 border-t">
-                <!-- <button class="text-[#A82400]">
-                    <i class="fas fa-smile"></i>
-                </button>
-                <button class="text-[#A82400]">
-                    <i class="fas fa-paperclip"></i>
-                </button> -->
                 <form id="message-form" class="flex-grow flex flex-wrap items-center space-x-2">
                     <div class="flex items-center border rounded-lg p-2 w-full sm:w-1/4 focus-within:ring-2 focus-within:ring-[#A82400]">
                         <button class="text-[#A82400] px-2">
@@ -140,10 +139,35 @@
         const messageInput = document.getElementById('message');
         const sendButton = document.getElementById('send-button');
         const micButton = document.querySelector('button[type="submit"] i.fa-microphone').parentElement;
+        const activeUsersCount = document.getElementById('active-users-count');
 
         // Join the community-specific room
         socket.emit('joinCommunity', communityId);
 
+        // Track active users
+        const activeUsers = new Set();
+
+        // When user joins, add to active users
+        socket.on('connect', () => {
+            const username = localStorage.getItem('username');
+            if (username) {
+                socket.emit('userActive', { 
+                    username, 
+                    communityId 
+                });
+            }
+        });
+
+        // Update active users count
+        socket.on('activeUsersList', function(users) {
+            activeUsers.clear();
+            users.forEach(user => activeUsers.add(user));
+            
+            // Update the active users count display
+            activeUsersCount.innerHTML = `<i class="fas fa-users mr-1"></i>${activeUsers.size} Active Users`;
+        });
+
+        // Existing message form and submission logic remains the same
         // Toggle send/mic button
         messageInput.addEventListener('input', function() {
             if (this.value.trim()) {
@@ -161,9 +185,18 @@
             const message = messageInput.value.trim();
 
             if (username && message) {
+                // Store username locally for future use
+                localStorage.setItem('username', username);
+
                 socket.emit('sendMessage', { 
                     username, 
                     message, 
+                    communityId 
+                });
+
+                // Emit user active status
+                socket.emit('userActive', { 
+                    username, 
                     communityId 
                 });
 

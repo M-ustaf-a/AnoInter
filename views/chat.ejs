@@ -1,58 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= community.title %></title>
+
+    <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <!-- Emoji Picker Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.1.1/dist/index.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Inline Styles -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #ffebcd;
         }
+
         #chat-background {
             background: url("/bg.png") no-repeat center center;
             background-size: 370px;
         }
+
         #chat-messages::-webkit-scrollbar {
             width: 6px;
         }
+
         #chat-messages::-webkit-scrollbar-track {
             background: #fee4bd;
         }
+
         #chat-messages::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 3px;
         }
-        /* Emoji Picker Styling */
-        .emoji-picker {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            z-index: 1000;
-            max-height: 300px;
-            overflow-y: auto;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
     </style>
 </head>
+
 <body class="flex flex-col h-screen overflow-hidden">
-    <!-- Header (Previous code remains the same) -->
-    <div class="bg-[#fee4bd] text-[#A82400] p-4 flex items-center justify-between md:justify-start">
-        <!-- ... (previous header content) ... -->
-    </div>
+    <!-- Header -->
+    <header class="bg-[#fee4bd] text-[#A82400] p-4 flex items-center justify-between md:justify-start">
+        <button onclick="history.back()" class="mb-2 md:mb-0">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+
+        <% if (community.thumbnail && community.thumbnail.url) { %>
+            <img src="<%= community.thumbnail.url %>" alt="<%= community.title %>" class="w-10 h-10 rounded-full mr-3 object-cover">
+        <% } else { %>
+            <div class="w-10 h-10 rounded-full mr-3 bg-gray-300 flex items-center justify-center">
+                <i class="fas fa-users text-white"></i>
+            </div>
+        <% } %>
+
+        <div class="flex flex-col items-start md:ml-3">
+            <h1 class="text-lg font-semibold"><%= community.title %></h1>
+            <p class="text-xs text-gray-600" id="active-users-count">
+                <i class="fas fa-users mr-1"></i>0 Active Users
+            </p>
+        </div>
+
+        <div class="ml-auto flex space-x-4">
+            <button><i class="fas fa-video"></i></button>
+            <button><i class="fas fa-phone"></i></button>
+            <button><i class="fas fa-ellipsis-v"></i></button>
+        </div>
+    </header>
 
     <!-- Chat Container -->
-    <div id="chat-background" class="flex-grow overflow-hidden flex">
-        <div class="w-full flex flex-col">
+    <main id="chat-background" class="flex-grow overflow-hidden flex">
+        <section class="w-full flex flex-col">
             <!-- Messages Container -->
             <div id="chat-messages" class="flex-grow overflow-y-auto p-4 space-y-3">
                 <% messages.forEach(function(msg) { %>
@@ -75,53 +93,34 @@
                 <% }); %>
             </div>
 
-            <!-- Message Input Area  -->
-            <div class="bg-[#fee4bd] p-3 flex flex-wrap items-center space-x-2 border-t mb-14 relative">
+            <!-- Message Input Area -->
+            <footer class="bg-[#fee4bd] p-3 flex flex-wrap items-center space-x-2 border-t mb-14">
                 <form id="message-form" class="flex-grow flex flex-wrap items-center space-x-2">
+                    <!-- Username Input -->
                     <div class="bg-white flex items-center border p-2 w-full sm:w-1/4 focus-within:ring-2 focus-within:ring-[#A82400] mb-2" style="border-radius: 35px;">
-                        <!-- <button type="button" id="emoji-trigger" class="text-[#A82400] px-2">
-                            <i class="fas fa-smile"></i>
-                        </button> -->
-                        <input 
-                            type="text" 
-                            id="username" 
-                            placeholder="Your Name" 
-                            required 
-                            class="flex-grow p-2 text-sm focus:outline-none"
-                        >
+                        <input type="text" id="username" placeholder="Your Name" required class="flex-grow p-2 text-sm focus:outline-none">
                     </div>
-                    <div class="bg-white flex items-center border p-2 w-full sm:w-1/4 focus-within:ring-2 focus-within:ring-[#A82400] relative" style="border-radius: 35px;">
+
+                    <!-- Message Input -->
+                    <div class="bg-white flex items-center border p-2 w-full sm:w-1/4 focus-within:ring-2 focus-within:ring-[#A82400]" style="border-radius: 35px;">
                         <button class="text-[#A82400] px-2">
                             <i class="fas fa-paperclip"></i>
                         </button>
-                        <button type="button" id="emoji-button" class="text-[#A82400] px-2">
+                        <button class="text-[#A82400] px-2">
                             <i class="fas fa-smile"></i>
                         </button>
-                        <input 
-                            type="text" 
-                            id="message" 
-                            placeholder="Type a message" 
-                            required 
-                            class="flex-grow p-2 text-sm focus:outline-none"
-                        >
-                        <button 
-                            type="submit" 
-                            class="bg-[#A82400] text-white p-2 rounded-full w-10 h-10 flex items-center justify-center"
-                        >
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <button 
-                            type="submit" 
-                            class="bg-[#A82400] text-white p-2 rounded-full w-10 h-10 flex items-center justify-center hidden"
-                            id="send-button"
-                        >
+                        <input type="text" id="message" placeholder="Type a message" required class="flex-grow p-2 text-sm focus:outline-none">
+                        <button type="submit" id="send-button" class="bg-[#A82400] text-white p-2 rounded-full w-10 h-10 flex items-center justify-center hidden">
                             <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <button type="submit" class="bg-[#A82400] text-white p-2 rounded-full w-10 h-10 flex items-center justify-center">
+                            <i class="fas fa-microphone"></i>
                         </button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
+            </footer>
+        </section>
+    </main>
 
     <script>
         const socket = io();
@@ -132,67 +131,9 @@
         const messageInput = document.getElementById('message');
         const sendButton = document.getElementById('send-button');
         const micButton = document.querySelector('button[type="submit"] i.fa-microphone').parentElement;
-        const activeUsersCount = document.getElementById('active-users-count');
-        const emojiButton = document.getElementById('emoji-button');
-
-        // Emoji Picker Setup
-        const picker = new EmojiButton({
-            position: 'bottom-start',
-            style: 'twemoji',
-            zIndex: 1000
-        });
-
-        // Emoji Picker Event Listeners
-        emojiButton.addEventListener('click', () => {
-            picker.togglePicker(emojiButton);
-        });
-
-        picker.on('emoji', selection => {
-            // Insert emoji at cursor position
-            const cursorPosition = messageInput.selectionStart;
-            const textBefore = messageInput.value.substring(0, cursorPosition);
-            const textAfter = messageInput.value.substring(cursorPosition);
-            
-            messageInput.value = textBefore + selection.emoji + textAfter;
-            
-            // Move cursor after inserted emoji
-            messageInput.setSelectionRange(
-                cursorPosition + selection.emoji.length, 
-                cursorPosition + selection.emoji.length
-            );
-            
-            // Focus back on input
-            messageInput.focus();
-
-            // Trigger input event to show send button
-            messageInput.dispatchEvent(new Event('input'));
-        });
 
         // Join the community-specific room
         socket.emit('joinCommunity', communityId);
-
-        // Track active users
-        const activeUsers = new Set();
-
-        // When user joins, add to active users
-        socket.on('connect', () => {
-            const username = localStorage.getItem('username');
-            if (username) {
-                socket.emit('userActive', { 
-                    username, 
-                    communityId 
-                });
-            }
-        });
-
-        // Update active users count
-        socket.on('activeUsersList', function(users) {
-            activeUsers.clear();
-            users.forEach(user => activeUsers.add(user));
-            
-            // Update the active users count display
-            activeUsersCount.innerHTML = `<i class="fas fa-users mr-1"></i>${activeUsers.size} Active Users`;
-        });
 
         // Toggle send/mic button
         messageInput.addEventListener('input', function() {
@@ -211,18 +152,9 @@
             const message = messageInput.value.trim();
 
             if (username && message) {
-                // Store username locally for future use
-                localStorage.setItem('username', username);
-
                 socket.emit('sendMessage', { 
                     username, 
                     message, 
-                    communityId 
-                });
-
-                // Emit user active status
-                socket.emit('userActive', { 
-                    username, 
                     communityId 
                 });
 
@@ -270,4 +202,5 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
     </script>
 </body>
+
 </html>

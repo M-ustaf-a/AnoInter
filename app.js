@@ -249,6 +249,10 @@ app.post("/community/:communityId/posts/:postId/suggestion", async (req, res) =>
     }
 });
 
+app.get("/community/:communityId/feeds", (req,res)=>{
+    res.render("feeds.ejs");
+})
+
 // Use chat routes
 app.use(chatRoutes);
 

@@ -147,7 +147,7 @@ app.get("/community/:communityId/posts", async (req, res) => {
         
         res.render("community-posts.ejs", { 
             community: currentCommunity, 
-            posts: communityPosts 
+            posts: communityPosts,
         });
     } catch (error) {
         console.error("Error fetching community posts:", error);
@@ -249,8 +249,15 @@ app.post("/community/:communityId/posts/:postId/suggestion", async (req, res) =>
     }
 });
 
-app.get("/community/:communityId/feeds", (req,res)=>{
-    res.render("feeds.ejs");
+app.get("/community/:communityId/feeds", async(req,res)=>{
+    const { communityId } = req.params;
+    const community = await Community.findById(communityId);
+    const notification = [];
+    if(!community){
+        return res.status(404).send("Community not found");
+    }
+
+    res.render("feeds.ejs", {community, notification});
 })
 
 // Use chat routes

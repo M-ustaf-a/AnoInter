@@ -22,18 +22,19 @@
             text-decoration: none;
         }
         .nav-icons{
-            gap: 40px;
+            gap: 60px;
+            margin-left: 21rem;
         }
         .nav-icons svg {
-            margin: 0 10px;
+            margin: 0 40px;
             cursor: pointer;
             gap: 23px;
             color: #A82400;
         }
         .profile-menu {
             display: flex;
-            align-items: center;
             gap: 10px;
+            margin-left: 90%;
         }
         .profile-menu img {
             border-radius: 50%;
@@ -59,17 +60,35 @@
             .header-logo {
                 font-size: 1.1rem;
             }
+            .profile-menu{
+                margin-left: 0;
+            }
             .profile-menu img {
+                margin-left: 0;
                 width: 25px;
                 height: 25px;
+            }
+            .nav-icons{
+                gap: 20%;
+                margin-left: 0;
+            }
+            .nav-icons svg {
+                margin: 0 100%;
+                cursor: pointer;
+                color: #A82400;
             }
         }
     </style>
 </head>
 <body>
-    <header class="d-flex align-items-center justify-content-between">
+    <header class="">
         <!-- Logo -->
-        <a href="#" class="header-logo">Feeds</a>
+         <div class="d-flex" style="display: flex; margin-bottom: 25px;">
+             <a href="#" class="header-logo">Feeds</a>
+             <div class="profile-menu" style="display: block; margin-left: 75%;">
+                 <img src="https://via.placeholder.com/35" alt="Profile Picture">
+             </div>
+         </div>
 
         <!-- Navigation Icons -->
         <div class="nav-icons d-flex">
@@ -98,10 +117,6 @@
             </a>
         </div>
 
-        <!-- Profile Menu -->
-        <div class="profile-menu">
-            <img src="https://via.placeholder.com/35" alt="Profile Picture">
-        </div>
     </header>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

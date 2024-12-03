@@ -252,7 +252,7 @@ app.post("/community/:communityId/posts/:postId/suggestion", async (req, res) =>
 app.get("/community/:communityId/feeds", async(req,res)=>{
     const { communityId } = req.params;
     const community = await Community.findById(communityId);
-    const notification = [];
+    const notification = ['notification1'];
     if(!community){
         return res.status(404).send("Community not found");
     }
@@ -267,6 +267,42 @@ app.get("/community/:communityId/main", async(req,res)=>{
         return res.status(404).send("community not found");
     }
     res.render("main.ejs");
+})
+
+app.get("/community/:communityId/link", async(req,res)=>{
+    const { communityId } = req.params;
+    const community = await Community.findById(communityId);
+    if(!community){
+        return res.status(404).send("community not found");
+    }
+    res.render("link.ejs");
+})
+
+app.get("/community/:communityId/group", async(req,res)=>{
+    const { communityId } = req.params;
+    const community = await Community.findById(communityId);
+    if(!community){
+        return res.status(404).send("community not found");
+    }
+    res.render("group.ejs");
+})
+
+app.get("/community/:communityId/notification", async(req,res)=>{
+    const { communityId } = req.params;
+    const community = await Community.findById(communityId);
+    if(!community){
+        return res.status(404).send("community not found");
+    }
+    res.render("notification.ejs");
+})
+
+app.get("/community/:communityId/company", async(req,res)=>{
+    const { communityId } = req.params;
+    const community = await Community.findById(communityId);
+    if(!community){
+        return res.status(404).send("community not found");
+    }
+    res.render("company.ejs");
 })
 
 // Use chat routes

@@ -260,6 +260,15 @@ app.get("/community/:communityId/feeds", async(req,res)=>{
     res.render("feeds.ejs", {community, notification});
 })
 
+app.get("/community/:communityId/main", async(req,res)=>{
+    const { communityId } = req.params;
+    const community = await Community.findById(communityId);
+    if(!community){
+        return res.status(404).send("community not found");
+    }
+    res.render("main.ejs");
+})
+
 // Use chat routes
 app.use(chatRoutes);
 

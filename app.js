@@ -12,6 +12,7 @@ const methodOverride = require("method-override");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
+const ejsMate = require("ejs-mate");
 
 // Import chat routes and socket initialization
 const { router: chatRoutes, initializeSocket } = require("./routes/chat");
@@ -56,6 +57,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
+app.engine("ejs", ejsMate);
 
 // Session Store Configuration
 const store = MongoStore.create({
@@ -136,24 +138,24 @@ app.post("/communityForm", upload.single("community[thumbnail]"), async (req, re
 
 // Community-Specific Posts Routes
 // View Posts for a Specific Community
-app.get("/community/:communityId/posts", async (req, res) => {
-    const { communityId } = req.params;
-    try {
-        // Find the specific community
-        const currentCommunity = await Community.findById(communityId);
+// app.get("/community/:communityId/video", async (req, res) => {
+//     const { communityId } = req.params;
+//     try {
+//         // Find the specific community
+//         const currentCommunity = await Community.findById(communityId);
         
-        // Find posts specific to this community
-        const communityPosts = await Post.find({ community: communityId });
+//         // Find posts specific to this community
+//         const communityPosts = await Post.find({ community: communityId });
         
-        res.render("community-posts.ejs", { 
-            community: currentCommunity, 
-            posts: communityPosts,
-        });
-    } catch (error) {
-        console.error("Error fetching community posts:", error);
-        res.status(500).send("An error occurred while fetching community posts");
-    }
-});
+//         res.render("community-posts.ejs", { 
+//             community: currentCommunity, 
+//             posts: communityPosts,
+//         });
+//     } catch (error) {
+//         console.error("Error fetching community posts:", error);
+//         res.status(500).send("An error occurred while fetching community posts");
+//     }
+// });
 
   
 // Show New Post Form for a Specific Community
@@ -266,7 +268,7 @@ app.get("/community/:communityId/main", async(req,res)=>{
     if(!community){
         return res.status(404).send("community not found");
     }
-    res.render("main.ejs");
+    res.render("main.ejs", {community});
 })
 
 app.get("/community/:communityId/link", async(req,res)=>{
@@ -275,8 +277,27 @@ app.get("/community/:communityId/link", async(req,res)=>{
     if(!community){
         return res.status(404).send("community not found");
     }
-    res.render("link.ejs");
+    res.render("link.ejs", {community});
 })
+
+app.get("/community/:communityId/video", async (req, res) => {
+    const { communityId } = req.params;
+    try {
+        // Find the specific community
+        const currentCommunity = await Community.findById(communityId);
+        
+        // Find posts specific to this community
+        const communityPosts = await Post.find({ community: communityId });
+        
+        res.render("community-posts.ejs", { 
+            community: currentCommunity, 
+            posts: communityPosts,
+        });
+    } catch (error) {
+        console.error("Error fetching community posts:", error);
+        res.status(500).send("An error occurred while fetching community posts");
+    }
+});
 
 app.get("/community/:communityId/group", async(req,res)=>{
     const { communityId } = req.params;
@@ -284,7 +305,7 @@ app.get("/community/:communityId/group", async(req,res)=>{
     if(!community){
         return res.status(404).send("community not found");
     }
-    res.render("group.ejs");
+    res.render("group.ejs", {community});
 })
 
 app.get("/community/:communityId/notification", async(req,res)=>{
@@ -293,7 +314,7 @@ app.get("/community/:communityId/notification", async(req,res)=>{
     if(!community){
         return res.status(404).send("community not found");
     }
-    res.render("notification.ejs");
+    res.render("notification.ejs", {community});
 })
 
 app.get("/community/:communityId/company", async(req,res)=>{
@@ -302,7 +323,7 @@ app.get("/community/:communityId/company", async(req,res)=>{
     if(!community){
         return res.status(404).send("community not found");
     }
-    res.render("company.ejs");
+    res.render("company.ejs", {community});
 })
 
 // Use chat routes

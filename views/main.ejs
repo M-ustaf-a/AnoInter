@@ -1,11 +1,156 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<%-layout('/layouts/boilerplate.ejs')%>
+    <style>
+        body {
+            background: blanchedalmond;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        }
+        .content-card {
+            width: 80%;
+            height: 450px;
+            margin-left: 20%;
+        }
+        .content-card:hover {
+           
+        }
+        #button:hover{
+            color: #A82400;
+        }
+        .intelligent-gradient {
+           
+        }
+        .glassomorphic {
+            background: blanchedalmond;
+            border: 1px solid rgb(254, 216, 158);
+        }
+    </style>
 </head>
-<body>
-    <h1>Main page</h1>
-</body>
-</html>
+<body x-data="socialEcosystemApp()" class="min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Intelligent Header -->
+       
+
+        <!-- Content Creation -->
+        
+
+        <!-- Content Feed -->
+        <main class="space-y-8">
+            <!-- Intelligent Featured Content -->
+            
+
+            <!-- Content Cards -->
+            <template x-for="post in posts" :key="post.id">
+                <article class="content-card rounded-2xl overflow-hidden shadow-lg">
+                    <div class="flex">
+                        <!-- Content Media -->
+                        <div class="p-5 flex items-center justify-center">
+                            <img 
+                                :src="post.media" 
+                                class="w-full h-full object-cover"
+                                alt="Post media"
+                                style="width: 500px; height: 300px; border-radius: 15px;"
+                            >
+                        </div>
+                        
+                        <!-- Content Details -->
+                        <div class="p-6 flex-grow">
+                            <div class="flex items-center mb-4">
+                                <img 
+                                    :src="post.author.avatar" 
+                                    class="w-12 h-12 rounded-full mr-4 border-2 border-indigo-200"
+                                >
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-900" x-text="post.author.name"></h3>
+                                    <p class="text-sm text-gray-500" x-text="post.timestamp"></p>
+                                </div>
+                            </div>
+                            <div style="height: 250px;">
+                                <h2 class="text-xl font-bold mb-3 text-gray-900" x-text="post.title"></h2>
+                                
+                                <p class="text-gray-600 mb-4" x-text="post.excerpt"></p>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <div class="flex space-x-4 text-gray-600">
+                                    <button class="flex items-center" id="button">
+                                        <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg>
+                                        <span x-text="post.likes"></span>
+                                    </button>
+                                    <button class="flex items-center" id="button">
+                                        <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                        </svg>
+                                        <span x-text="post.comments"></span>
+                                    </button>
+                                </div>
+                                <button class="text-gray-600" id="button">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </template>
+        </main>
+    </div>
+
+    <script>
+        function socialEcosystemApp() {
+            return {
+                feedMode: 'personalized',
+                newPostContent: '',
+                posts: [
+                    {
+                        id: 1,
+                        title: 'The Future of AI Ethics',
+                        excerpt: 'Exploring the critical intersection of technological innovation and moral responsibility in artificial intelligence.',
+                        author: {
+                            name: 'Dr. Elena Rodriguez',
+                            avatar: 'https://cutedp.org/wp-content/uploads/2024/07/cute-girl-pic-11.jpg'
+                        },
+                        timestamp: '2 hours ago',
+                        media: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBNOrVEu_2Nao5A3Y5v0WgAOrMt76Vyn9BIsFuWUf9jKrV_aZSXy4kM88EsPsbiQrM0cQ&usqp=CAU',
+                        likes: 256,
+                        comments: 42
+                    },
+                    {
+                        id: 2,
+                        title: 'Sustainable Urban Design Revolution',
+                        excerpt: 'How innovative architectural approaches are transforming our cities into green, livable ecosystems.',
+                        author: {
+                            name: 'Michael Chen',
+                            avatar: '/api/placeholder/64/64'
+                        },
+                        timestamp: '5 hours ago',
+                        media: 'https://pertanto.com/wp-content/uploads/2023/09/Transformacion-de-Singapur.jpg',
+                        likes: 184,
+                        comments: 29
+                    }
+                ],
+                setFeedMode(mode) {
+                    this.feedMode = mode;
+                },
+                createPost() {
+                    if (this.newPostContent.trim()) {
+                        this.posts.unshift({
+                            id: Date.now(),
+                            title: 'My Latest Insight',
+                            excerpt: this.newPostContent,
+                            author: {
+                                name: 'You',
+                                avatar: '/api/placeholder/64/64'
+                            },
+                            timestamp: 'Just now',
+                            media: '/api/placeholder/300/200',
+                            likes: 0,
+                            comments: 0
+                        });
+                        this.newPostContent = '';
+                    }
+                }
+            }
+        }
+    </script>

@@ -9,36 +9,42 @@
             height: 450px;
             margin-left: 20%;
         }
-        .content-card:hover {
-           
-        }
+       
         #button:hover{
             color: #A82400;
         }
-        .intelligent-gradient {
-           
-        }
+       
         .glassomorphic {
             background: blanchedalmond;
             border: 1px solid rgb(254, 216, 158);
         }
+
+        @media (max-width: 800px) {
+            .content-card {
+                width: 687px;
+                margin-left: 0;
+            }
+            .container{
+                padding: 23px;
+            }
+        }
+        @media (max-width: 600px){
+            .container-card{
+                width: 400px;
+                margin-right: 10px;
+            }
+        }
+        
     </style>
 </head>
 <body x-data="socialEcosystemApp()" class="min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <!-- Intelligent Header -->
-       
-
-        <!-- Content Creation -->
-        
-
+    <div class="container m-x-10">
+   
         <!-- Content Feed -->
         <main class="space-y-8">
-            <!-- Intelligent Featured Content -->
-            
 
             <!-- Content Cards -->
-            <template x-for="post in posts" :key="post.id">
+            <template x-for="post in posts" :key="post.id" style="">
                 <article class="content-card rounded-2xl overflow-hidden shadow-lg">
                     <div class="flex">
                         <!-- Content Media -->
@@ -47,7 +53,7 @@
                                 :src="post.media" 
                                 class="w-full h-full object-cover"
                                 alt="Post media"
-                                style="width: 500px; height: 300px; border-radius: 15px;"
+                                style="width: 650px; height: 300px; border-radius: 15px;"
                             >
                         </div>
                         

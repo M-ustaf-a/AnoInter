@@ -16,6 +16,7 @@ const ejsMate = require("ejs-mate");
 
 // Import chat routes and socket initialization
 const { router: chatRoutes, initializeSocket } = require("./routes/chat");
+const uploadPost = require( "./models/uploadPost" );
 
 const app = express();
 const MONGO_URL = process.env.ATLAS;
@@ -24,7 +25,7 @@ const MONGO_URL = process.env.ATLAS;
 const upload = multer({ 
     storage: storage,
     fileFilter: (req, file, cb) => {
-        if (file.fieldname === 'post[image]' || file.fieldname === 'community[thumbnail]') {
+        if (file.fieldname === 'post[image]' || file.fieldname === 'community[thumbnail]' || file.fieldname === 'upload[image]') {
             // Allow image files
             if (file.mimetype.startsWith('image/')) {
                 cb(null, true);
@@ -171,6 +172,8 @@ app.get("/community/:communityId/posts/new", async (req, res) => {
     }
 });
 
+
+
 // Create New Post for a Specific Community
 app.post("/community/:communityId/posts", upload.fields([
     { name: 'post[image]', maxCount: 10 }, 
@@ -262,14 +265,29 @@ app.get("/community/:communityId/feeds", async(req,res)=>{
     res.render("feeds.ejs", {community, notification});
 })
 
+app.post("/community/:communityId/main",upload.single("upload[image]"), async(req,res)=>{
+    const {communityId} = req.params;
+    const newUploadPost = new uploadPost(req.body.upload);
+    newUploadPost.community = communityId;
+    let url = req.file.path;
+    let filename = req.file.filename;
+    newUploadPost.image = {url, filename};
+    const posting = await newUploadPost.save();
+    console.log(posting);
+    res.redirect(`/community/${communityId}/main`);
+ });
+
 app.get("/community/:communityId/main", async(req,res)=>{
     const { communityId } = req.params;
     const community = await Community.findById(communityId);
-    if(!community){
-        return res.status(404).send("community not found");
+    const newUploadPost = await uploadPost.find({community: communityId});
+    if(!newUploadPost){
+        return res.status(404).send("newUploadPost not found");
     }
-    res.render("main.ejs", {community});
+    
+    res.render("main.ejs", {community, newUploadPost});
 })
+
 
 app.get("/community/:communityId/link", async(req,res)=>{
     const { communityId } = req.params;
@@ -325,6 +343,8 @@ app.get("/community/:communityId/company", async(req,res)=>{
     }
     res.render("company.ejs", {community});
 })
+
+
 
 // Use chat routes
 app.use(chatRoutes);

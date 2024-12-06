@@ -19,6 +19,7 @@
     .content-media {
         width: 100%;
         max-height: 400px;
+
         object-fit: cover;
     }
 
@@ -38,10 +39,10 @@
 
     .form-card{
         width: 100%;
-        background-color: rgb(255, 235, 205);
+        background-color: #fee4bd;
         padding: 20px;
         border-radius: 25px;
-        border: 2px solid rgb(253, 225, 184);
+        border: 1px solid #f9d8a6;
         box-shadow:  0 4px 6px rgba(0,0,0,0.1);
     }
 
@@ -138,32 +139,34 @@
     <!-- Content Feed - Responsive -->
     <main class="space-y-8 mt-8">
         <% for(let uploadPost of newUploadPost) { %>
-            <article class="content-card post-content bg-white">
+            <article class="content-card post-content relative" style="height: 25rem;">
                 <% if(uploadPost.image && uploadPost.image.url) { %>
-                    <div class="content-media-container">
+                    <div class="absolute right-0 top-1/2 transform -translate-y-1/2 mr-4">
                         <img 
                             src="<%=uploadPost.image.url%>"
-                            class="content-media w-full h-full object-cover"
-                            alt="Post media"
+                            alt="Post media" 
+                            class="w-52 h-52 object-cover rounded-lg"
                         >
                     </div>
                 <% } %>
                 
                 <div class="content-details p-4">
-                    <div class="flex items-center mb-4 mobile-stack">
-                        <img 
-                            src="/image.jpg"
-                            class="w-12 h-12 rounded-full mr-4 border-2 border-indigo-200"
-                        >
-                        <div>
-                            <h3 class="font-bold text-lg text-gray-900">Dr. Muskan</h3>
-                            <p class="text-sm text-gray-500">2 hours ago</p>
+                    <div class="flex mb-4">
+                        <div style="display: flex;">
+                            <img 
+                                src="/image.jpg"
+                                class="w-12 h-12 rounded-full mr-4 border-2 border-indigo-200"
+                            >
+                            <span>
+                                <h3 class="font-bold text-lg text-gray-900">Dr. Muskan</h3>
+                                <p class="text-sm text-gray-500">2 hours ago</p>
+                            </span>
                         </div>
                     </div>
                     
                     <div class="mb-4">
                         <h2 class="text-xl font-bold mb-3 text-gray-900">Future of humanity</h2>
-                        <p class="text-gray-600"><%=uploadPost.content%></p>
+                        <p class="text-gray-600" style="height: 12rem;"><%=uploadPost.content%></p>
                     </div>
                     
                     <div class="interaction-buttons">

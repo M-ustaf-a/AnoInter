@@ -135,28 +135,32 @@
             </div>
         </section>
     </form>
-
+    
     <!-- Content Feed - Responsive -->
     <main class="space-y-8 mt-8">
         <% for(let uploadPost of newUploadPost) { %>
             <article class="content-card post-content relative" style="height: 25rem;">
                 <% if(uploadPost.image && uploadPost.image.url) { %>
                     <div class="absolute right-0 top-1/2 transform -translate-y-1/2 mr-4">
-                        <img 
-                            src="<%=uploadPost.image.url%>"
-                            alt="Post media" 
-                            class="w-52 h-52 object-cover rounded-lg"
-                        >
+                        <a href="<%=uploadPost.image.url%>">
+                            <img 
+                                src="<%=uploadPost.image.url%>"
+                                alt="Post media" 
+                                class="w-52 h-52 object-cover rounded-lg"
+                            >
+                        </a>
                     </div>
                 <% } %>
                 
                 <div class="content-details p-4">
                     <div class="flex mb-4">
                         <div style="display: flex;">
-                            <img 
-                                src="/image.jpg"
-                                class="w-12 h-12 rounded-full mr-4 border-2 border-indigo-200"
-                            >
+                            <a href="/profile">
+                                <img 
+                                    src="/image.jpg"
+                                    class="w-12 h-12 rounded-full mr-4 border-2 border-indigo-200"
+                                >
+                            </a>
                             <span>
                                 <h3 class="font-bold text-lg text-gray-900">Dr. Muskan</h3>
                                 <p class="text-sm text-gray-500">2 hours ago</p>

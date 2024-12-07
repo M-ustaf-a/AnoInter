@@ -36,25 +36,27 @@
         <header class="header">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <h1 style="color: #A82400; margin: 20px;">Community</h1>
-                <form action="/commForm" method="get">
-                    <button class="btn btn-light" style="background-color: #A82400; color: white;">Create</button>
-                </form>
+                    <a href="/commform" style=" color: #A82400;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                        </svg>
+                    </a>
             </div>
             <hr>
         </header>
         <div class="row g-1">
             <% for(community of Communities){ %>
                     <div class="col-20 col-md-6 col-lg-4 d-flex justify-content-center mb-3" style="padding: 0; margin: 0px;">
-                       <div class="rows">
-                        <button type="button" class="btn btn-light mt-1 mb-1" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="<%=community.admin%>" style="font-style: oblique;">
+                       <div class="rows" style="border-radius: 23px; background-color: #feebca; box-shadow: 0 4px 6px rgba(0,0,0,0.1);;">
+                        <button type="button" class="btn btn-light mt-1 mb-1" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="<%=community.admin%>" style="font-style: oblique; background-color: #feebca; border: none">
                             <b><%=community.title%></b>
                         </button>
                         <a href="/community/<%= community._id %>/main">
                             <div>
-                                <img src="<%=community.thumbnail.url%>" alt="thumbnail" style="width: 23rem;">
+                                <img src="<%=community.thumbnail.url%>" alt="thumbnail" style=" border-radius: 23px;">
                             </div>
                         </a>
-                        <div style="margin-left: 5%;">
+                        <div style="margin-left: 9%;">
                             <b>Description</b>
                             <p style="overflow-y: scroll; overflow-x: hidden;  scrollbar-width: none; height: 80px; width: 90%;"><%= community.description %></p>
                         </div>

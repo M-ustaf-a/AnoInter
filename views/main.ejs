@@ -127,7 +127,7 @@
                     <img src="/image.jpg" class="profile-img">
                 </a>
                 <div class="flex-grow w-full">
-                    <input type="text" name="upload[content]" placeholder="Future of humanity" style="padding: 5px; margin-bottom: 5px; border-radius: 10px; padding-left: 20px; background-color: #ffebcd;">
+                    <input type="text" name="upload[title]" placeholder="Future of humanity" style="padding: 5px; margin-bottom: 5px; border-radius: 10px; padding-left: 20px; background-color: #ffebcd;">
                     <textarea name="upload[content]" placeholder="What's your insight today?" class="w-full h-24 p-4 bg-[#ffebcd] rounded-xl focus:ring-2 focus:ring-[#ffe6bf] transition"></textarea>
                     <div class="flex flex-col md:flex-row justify-between items-center mt-2 space-y-2 md:space-y-0">
                         <div class="flex space-x-4 w-full justify-start">
@@ -163,7 +163,13 @@
                                 <img src="<%= uploadPost.image.url %>" alt="Post media">
                             </a>
                         </div>
-                    <% } %>
+                    <% }else{%>
+                        <div class="post-image" style="display: none;">
+                            <a href="<%= uploadPost.image.url %>">
+                                <img src="<%= uploadPost.image.url %>" alt="Post media">
+                            </a>
+                        </div>
+                   <% } %>
                     
                     <div class="mb-4 mt-10">
                         <h2 class="text-xl font-bold mb-3 text-gray-900">Future of humanity</h2>

@@ -323,7 +323,24 @@ app.get("/community/:communityId/group", async(req,res)=>{
     if(!community){
         return res.status(404).send("community not found");
     }
-    res.render("group.ejs", {community});
+    res.render("group.ejs", {community, communityId});
+});
+app.get("/community/:communityId/personal", async(req,res)=>{
+    const {communityId} = req.params;
+    const community = await Community.findById(communityId);
+    if(!community){
+        return res.status(404).send("community not found");
+    }
+    res.render("personal.ejs", {community, communityId});
+});
+
+app.get("/community/:communityId/meeting", async(req,res)=>{
+    const {communityId} = req.params;
+    const community = await Community.findById(communityId);
+    if(!community){
+        return res.status(404).send("community not found");
+    }
+    res.render("meeting.ejs", {community, communityId});
 })
 
 app.get("/community/:communityId/notification", async(req,res)=>{

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/adminApproval" method="post" enctype="multipart/form-data">
+        <div style="margin-left: 40px;">
+          <h1>Approval form</h1>
+          <div>
+              <input type="text" placeholder="name" name="approval[name]" required>
+            </div><br>
+            <div>
+                <input type="email" placeholder="email" name="approval[email]" required>
+            </div><br>
+            <div>
+                <input type="text" placeholder="role" name="approval[role]">
+            </div><br>
+            <div>
+                <input type="file" name="approval[image]">
+            </div><br>
+            <div>
+                <input type="text" placeholder="company name" name="approval[company]">
+            </div><br>
+            <div>
+                <textarea type="text" placeholder="reason" name="approval[reason]"></textarea>
+            </div><br>
+            <div>
+                <button>submit</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

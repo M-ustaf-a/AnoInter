@@ -13,10 +13,12 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const ejsMate = require("ejs-mate");
+const approvalRoute = require("./routes/admin")
 
 // Import chat routes and socket initialization
 const { router: chatRoutes, initializeSocket } = require("./routes/chat");
 const uploadPost = require( "./models/uploadPost" );
+const { isLoggedIn } = require( "./middleware" );
 
 const app = express();
 const MONGO_URL = process.env.ATLAS;
@@ -114,12 +116,12 @@ app.get("/community", async (req, res) => {
 });
 
 // Community Creation Form
-app.get("/commForm", (req, res) => {
+app.get("/commForm", isLoggedIn, (req, res) => {
     res.render("commForm.ejs");
 });
 
 // Create New Community
-app.post("/communityForm", upload.single("community[thumbnail]"), async (req, res) => {
+app.post("/communityForm",isLoggedIn, upload.single("community[thumbnail]"), async (req, res) => {
     try {
         const url = req.file.path;
         const filename = req.file.filename;
@@ -365,7 +367,7 @@ app.get("/community/:communityId/company", async(req,res)=>{
 
 // Use chat routes
 app.use(chatRoutes);
-
+app.use("/", approvalRoute);
 // Error Handling Middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

@@ -19,6 +19,8 @@ const approvalRoute = require("./routes/admin");
 const { router: chatRoutes, initializeSocket } = require("./routes/chat");
 const uploadPost = require( "./models/uploadPost" );
 const { isLoggedIn } = require( "./middleware" );
+const User = require( "./models/user" );
+const Approvaladmin = require( "./models/adminApproval" );
 
 const app = express();
 const MONGO_URL = process.env.ATLAS;
@@ -94,13 +96,6 @@ app.use((req,res,next)=>{
     next();
 });
 
-// Global Middleware for Flash Messages
-// app.use((req, res, next) => {
-//     res.locals.success = req.flash('success');
-//     res.locals.error = req.flash('error');
-//     next();
-// });
-
 // Home Route
 app.get("/", (req, res) => {
     res.render("home.ejs");
@@ -111,7 +106,9 @@ app.get("/", (req, res) => {
 app.get("/community", async (req, res) => {
     try {
         const Communities = await Community.find({});
-        res.render("community.ejs", { Communities });
+        const user = await Approvaladmin.findById(req.session.userId);
+        console.log(user);
+        res.render("community.ejs", { Communities, user });
     } catch (error) {
         console.error("Error fetching communities:", error);
         res.status(500).send("An error occurred while fetching communities");

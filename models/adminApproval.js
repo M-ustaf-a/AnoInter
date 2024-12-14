@@ -46,4 +46,4 @@ const adminApprovalSchema = new Schema({
 });
 
 const Approvaladmin = mongoose.model("Approvaladmin", adminApprovalSchema);
-module.exports = Approvaladmin;
+module.exports = Approvaladmin; 

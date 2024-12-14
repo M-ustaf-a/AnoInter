@@ -5,7 +5,7 @@ const multer = require("multer");
 const {storage} = require("../cloudConfig");
 const User = require( "../models/user" );
 const upload = multer({storage});
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs")
 
 router.get("/adminApproval", (req,res)=>{
     res.render("admin/adminApprovalForm");

@@ -23,11 +23,11 @@ module.exports.isVerifiedAdmin = async(req,res, next)=>{
 module.exports.isLoggedIn = async(req,res,next)=>{
     try{
         if(!req.session || !req.session.userId){
-            return res.redirect("/adminApprovalForm");
+            return res.redirect("/commForm");
         }
         const user = await User.findById(req.session.userId);
         if(!user){
-            return res.redirect("/adminApprovalForm");
+            return res.redirect("/commForm");
         }
         req.user = user;
         next();

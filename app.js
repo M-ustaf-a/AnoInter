@@ -13,7 +13,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const ejsMate = require("ejs-mate");
-const approvalRoute = require("./routes/admin")
+const approvalRoute = require("./routes/admin");
 
 // Import chat routes and socket initialization
 const { router: chatRoutes, initializeSocket } = require("./routes/chat");
@@ -89,14 +89,17 @@ app.use(session({
 }));
 
 // Flash Messages Middleware
-app.use(flash());
-
-// Global Middleware for Flash Messages
-app.use((req, res, next) => {
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
+app.use((req,res,next)=>{
+    res.locals.currUser = req.user;
     next();
 });
+
+// Global Middleware for Flash Messages
+// app.use((req, res, next) => {
+//     res.locals.success = req.flash('success');
+//     res.locals.error = req.flash('error');
+//     next();
+// });
 
 // Home Route
 app.get("/", (req, res) => {
@@ -116,7 +119,7 @@ app.get("/community", async (req, res) => {
 });
 
 // Community Creation Form
-app.get("/commForm", isLoggedIn, (req, res) => {
+app.get("/commForm", (req, res) => {
     res.render("commForm.ejs");
 });
 

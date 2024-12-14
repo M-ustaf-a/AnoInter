@@ -29,6 +29,14 @@ transporter.verify((error) => {
     }
 });
 
+router.get("/admin/login", (req,res)=>{
+    res.render("./admin/login.ejs");
+})
+
+router.get("/admindashboard", (req,res)=>{
+    res.render("./admin/dashboard")
+})
+
 router.get("/adminApproval", (req,res)=>{
     res.render("admin/adminApprovalForm");
 });

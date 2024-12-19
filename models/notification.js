@@ -21,7 +21,7 @@ const notificationSchema = new Schema({
     },
     requestId: {
         type: mongoose.Types.ObjectId,
-        ref: 'Approvaladmin',
+        ref: 'Approval',
     },
    
 });

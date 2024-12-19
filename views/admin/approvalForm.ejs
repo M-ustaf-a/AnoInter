@@ -35,18 +35,18 @@
         <form action="/adminApproval" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" placeholder="Science" name="approval[name]" id="name" class="form-control" required>
+                <input type="text" placeholder="Mustafa" name="approval[name]" id="name" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <textarea name="approval[email]" id="email" placeholder="Email" class="form-control" required></textarea>
+                <input name="approval[email]" id="email" placeholder="Email" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="role" class="form-label">Role</label>
                 <input type="text" name="approval[role]" placeholder="role" id="role" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">Image</label>
+                <label for="image" class="form-label">Your Image</label>
                 <input type="file" name="approval[image]" id="image" class="form-control" required>
             </div>
             <div class="mb-3">
@@ -55,7 +55,7 @@
             </div>
             <div class="mb-3">
                 <label for="reason" class="form-label">Reason</label>
-                <input type="text" name="approval[reason]" placeholder="reason" id="reason" class="form-control" required>
+                <textarea type="text" name="approval[reason]" placeholder="Why are you join us?" id="reason" class="form-control" required></textarea>
             </div>
             <button class="btn btn-custom btn-block">Submit</button>
         </form>

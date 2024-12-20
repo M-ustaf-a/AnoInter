@@ -114,9 +114,9 @@ router.get("/admin/approval", (req,res)=>{
 
 router.post("/adminApproval", upload.single("approval[image]"), async(req,res)=>{
     try {
-        const { name, email, role, company, reason } = req.body.approval;
+        const { name, email, bio, role, company, reason } = req.body.approval;
 
-        if (!name || !email || !role || !req.file) {
+        if (!name || !email || !bio || !role || !req.file) {
             return res.status(400).send("All required fields must be provided, including an image.");
         }
 
@@ -125,6 +125,7 @@ router.post("/adminApproval", upload.single("approval[image]"), async(req,res)=>
         const newRequest = new Approvaladmin({
             name,
             email,
+            bio,
             role,
             company,
             reason,
@@ -134,7 +135,7 @@ router.post("/adminApproval", upload.single("approval[image]"), async(req,res)=>
         
         const notification = new Notification({
             type: "membership_request",
-            content: { requestId: newRequest._id, name, email, role, company, imageUrl: url },
+            content: { requestId: newRequest._id, name, email, bio, role, company, imageUrl: url },
         });
 
         await notification.save();
@@ -144,6 +145,7 @@ router.post("/adminApproval", upload.single("approval[image]"), async(req,res)=>
             <ul>
                 <li>Name: ${name}</li>
                 <li>Email: ${email} </li>
+                <li>Bio: ${bio}</li>
                 <li>Role: ${role}</li>
                 <li>Company: ${company}</li>
                 <li>Reason: ${reason} </li>
@@ -185,6 +187,7 @@ router.post('/adminApprove', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const image = member.image;
         const name = member.name;
+        const boi = member.bio;
         const role = member.role;
         const company = member.company;
         user.username = username;
@@ -195,6 +198,7 @@ router.post('/adminApprove', async (req, res) => {
         user.adminData.name = name;
         user.adminData.company = company;
         user.adminData.role = role;
+        user.adminData.boi = boi;
         
         await member.save();
         await user.save();

@@ -17,6 +17,10 @@ const communitySchema = new Schema({
     admin: {
        type: String,
        required: true,
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 

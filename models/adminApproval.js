@@ -13,6 +13,10 @@ const adminApprovalSchema = new Schema({
         trim: true,
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
+    bio: {
+        type: String,
+        required: true
+    },
     role: {
         type: String,
         required: true

@@ -124,7 +124,7 @@ app.get("/createCommunity",isAuthenticated, (req, res) => {
 // Create New Community
 app.post(
   "/communityForm",
-  isLoggedIn,
+  isAuthenticated,
   upload.single("community[thumbnail]"),
   async (req, res) => {
     try {
@@ -133,13 +133,12 @@ app.post(
       const newCommunity = new Community(req.body.community);
 
       newCommunity.thumbnail = { url: url, filename: filename };
+      newCommunity.owner = req.session.userId;
       await newCommunity.save();
 
-      req.flash("success", "Community created successfully!");
       res.redirect("/community");
     } catch (error) {
       console.error("Community creation error:", error);
-      req.flash("error", "Failed to create community");
       res.redirect("/commForm");
     }
   }

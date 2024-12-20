@@ -10,6 +10,7 @@ const nodemailer = require("nodemailer");
 const Notification = require( "../models/notification" );
 const { saveRedirectUrl, isLoggedIn, isAuthenticated } = require( "../middleware" );
 const passport = require( "passport" );
+const Community = require( "../models/community" );
 require("dotenv").config();
 
 const transporter = nodemailer.createTransport({
@@ -81,12 +82,24 @@ router.get("/admindashboard", async(req,res)=>{
     res.render("./admin/dashboard", {notifications, unreadCount, id});
 });
 
-router.get("/admin/profile",isAuthenticated, async(req,res)=>{
-  const id = req.session.userId;
-  const admin = await User.findById(id);
-    res.render("admin/profile", {admin});
-  
-})
+router.get("/admin/profile", isAuthenticated, async (req, res) => {
+  try {
+    const id = req.session.userId; // User ID from session
+    const user = await User.findById(id); // Find the user
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const communities = await Community.find({ owner: id }); // Filter communities by owner
+
+    // Render profile with user and their communities
+    res.render("admin/profile", { user, communities });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  }
+});
+
 
 router.get("/admindashboard/:id/show", async(req,res)=>{
     const {id} = req.params;
@@ -118,11 +131,12 @@ router.post("/adminApproval", upload.single("approval[image]"), async(req,res)=>
             image: { url, filename },
         });
         await newRequest.save();
-
+        
         const notification = new Notification({
             type: "membership_request",
             content: { requestId: newRequest._id, name, email, role, company, imageUrl: url },
         });
+
         await notification.save();
 
         const sanitizedHTML = `
@@ -163,17 +177,25 @@ router.post('/adminApprove', async (req, res) => {
       if(!user){
         user = new User({email});
       }
-  
+      
+
       if (approved === 'on') {
         const username = email.split('@')[0]; // Example username generation
         const password = Math.random().toString(36).substr(2, 8); // Random password
         const hashedPassword = await bcrypt.hash(password, 10);
         const image = member.image;
+        const name = member.name;
+        const role = member.role;
+        const company = member.company;
         user.username = username;
         user.email = email;
         user.password = hashedPassword;
         member.status = true;
         user.image = image;
+        user.adminData.name = name;
+        user.adminData.company = company;
+        user.adminData.role = role;
+        
         await member.save();
         await user.save();
         // Send credentials to the user

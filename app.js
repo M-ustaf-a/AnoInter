@@ -17,6 +17,7 @@ const approvalRoute = require("./routes/admin");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const crypto = require("crypto");
+const profileRoute = require("./routes/profile");
 
 // Import chat routes and socket initialization
 const { router: chatRoutes, initializeSocket } = require("./routes/chat");
@@ -366,6 +367,7 @@ function ensureAuthenticate(req, res, next) {
 // Use chat routes
 app.use(chatRoutes);
 app.use("/", approvalRoute);
+app.use("/", profileRoute)
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

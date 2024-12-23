@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Profile</title>
+
     <style>
         * {
             margin: 0;
@@ -129,7 +124,6 @@
         /* Content Tabs */
         .content-tabs {
             display: flex;
-            gap: 20px;
             margin-bottom: 20px;
             border-bottom: 2px solid rgba(168, 36, 0, 0.2);
             padding-bottom: 10px;
@@ -139,8 +133,33 @@
             padding: 10px 20px;
             cursor: pointer;
             position: relative;
+            margin-left: 20%;
+        }
+        .tab-icon {
+            fill: currentColor;
+            color: #A82400;
+            opacity: 0.5; /* Make non-active tabs slightly transparent */
         }
 
+        .tab svg {
+            color: #A82400;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tab.active .tab-icon {
+            opacity: 1; 
+        }
+
+        .tab.active svg {
+            opacity: 1;
+        }
+        
+        /* Remove these previous rules since we're handling it differently now */
+        .bookmark-tab svg {
+            color: #A82400;
+            fill: #A82400;
+        }
         .tab.active {
             font-weight: bold;
         }
@@ -155,52 +174,10 @@
             background: #A82400;
         }
 
-        /* Content Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+        a svg{
+            color:#A82400;
         }
 
-        .content-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .content-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .content-image {
-            width: 100%;
-            height: 150px;
-            background: #A82400;
-            position: relative;
-        }
-        .content-image-url{
-            width: 100%;
-            height: 150px;
-            position: relative;
-        }
-
-        .content-details {
-            padding: 15px;
-        }
-
-        .content-title {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .content-meta {
-            font-size: 12px;
-            opacity: 0.8;
-            display: flex;
-            justify-content: space-between;
-        }
 
         /* Interaction Bar */
         .interaction-bar {
@@ -285,50 +262,42 @@
         </div>
 
         <div class="content-tabs">
-            <div class="tab active">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-fill" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.004-.001.274-.11a.75.75 0 0 1 .558 0l.274.11.004.001zm-1.374.527L8 5.962 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339Z"/>
-                </svg>
+            <div class="tab">
+                <a href="/admin/profiles/store">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.004-.001.274-.11a.75.75 0 0 1 .558 0l.274.11.004.001zm-1.374.527L8 5.962 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339Z"/>
+                        </svg>
+                </form>
+                
             </div>
             <div class="tab">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
-                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
-                    <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
-                </svg>
+                <a href="/admin/profiles/gallery">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
+                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                        <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                </a>
             </div>
-            <div class="tab">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
-                </svg>
+            <div class="tab bookmark-tab">
+                <a href="/admin/profiles/saved">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                    </svg>
+                </a>
             </div>
-        </div>
-
-        <div class="content-grid">
-            <%for(community of communities){%>
-                <div class="content-card">
-                    <%if(community.thumbnail.url){%>
-                        <div class="content-image-url">
-                            <img src="<%=community.thumbnail.url%>" alt="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 19px 19px 0 0;">
-                        </div>
-                    <%}else{%>
-                        <div class="content-image">
-                            <img src="<%=community.thumbnail.url%>" alt="">
-                        </div>
-                    <%}%>
-                    <div class="content-details">
-                        <h3 class="content-title"><%=community.title%></h3>
-                        <div class="interaction-bar">
-                            <div class="interaction-item">
-                                <span>4.2K</span> Likes
-                            </div>
-                            <div class="interaction-item">
-                                <span>328</span> Comments
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <%}%>
         </div>
     </div>
+
+    <script>
+        let icons = document.querySelectorAll('.tab');
+        icons.forEach(icon => {
+            icon.addEventListener("click", () => {
+             // Remove active class from all tabs
+              icons.forEach(tab => tab.classList.remove("active"));
+        
+              // Add active class to clicked tab
+               icon.classList.add("active");
+            });
+        });
+    </script>
 </body>
-</html>
